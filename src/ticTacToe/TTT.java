@@ -1,5 +1,7 @@
+package ticTacToe;
 import java.util.Scanner;
 /**
+
  * The main class for the Tic-Tac-Toe (Console-OO, non-graphics version)
  * It acts as the overall controller of the game.
  */

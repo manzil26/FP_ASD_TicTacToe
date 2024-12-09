@@ -1,4 +1,4 @@
-package TikTakTu;
+package connectFour;
 
 import java.awt.Image;
 import java.net.URL;

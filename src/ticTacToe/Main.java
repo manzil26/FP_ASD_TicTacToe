@@ -1,3 +1,5 @@
+package ticTacToe;
+
 /**
  * Main class of the Java program.
  */

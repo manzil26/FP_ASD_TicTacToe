@@ -1,4 +1,4 @@
-package TikTakTu;
+package connectFour;
 
 import java.util.ArrayList;
 import java.util.List;
