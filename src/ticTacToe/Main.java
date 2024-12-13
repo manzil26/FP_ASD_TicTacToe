@@ -2,8 +2,7 @@ package ticTacToe;
 
 public class Main {
     public static void main(String[] args) {
-        TTT game = new TTT();
-        game.TTTGraphics();  // Directly launch the graphical version
+        TTT Game = new TTT();
+        Game.TTTGraphics();
     }
-
 }

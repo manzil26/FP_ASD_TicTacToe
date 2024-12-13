@@ -1,8 +1,6 @@
 package ticTacToe;
-<<<<<<< HEAD
 
-=======
->>>>>>> 35bc9b7215be21d19496694c07487f9ff9266747
+
 /**
  * The Cell class models each individual cell of the TTT 3x3 grid.
  */

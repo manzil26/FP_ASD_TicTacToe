@@ -1,10 +1,6 @@
 package ticTacToe;
-<<<<<<< HEAD
-
 
 import javax.swing.*;
-=======
->>>>>>> 35bc9b7215be21d19496694c07487f9ff9266747
 import java.util.Scanner;
 /**
 
@@ -97,7 +93,7 @@ public class TTT {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new TTTGraphics();
+                new TTTGraphics1();
             }
         });
     }
