@@ -5,16 +5,14 @@ import javax.swing.SwingUtilities;
 public class Main {
     public static void main(String[] args) {
         boolean isAIMode = true;  // Set true untuk mode AI
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        System.out.print("Enter name for Human player: ");
+        String humanName = scanner.nextLine();
+        System.out.print("Enter name for AI player: ");
+        String aiName = scanner.nextLine();
 
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Connect4");  // Judul Game
-            GameMain game = new GameMain();
-            game.initGame(isAIMode);  // Inisialisasi game dengan AI mode
-            frame.setContentPane(game);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
+        // Membuat game baru dan memulai permainan
+        Connect4 game = new Connect4(humanName, aiName);
+
     }
 }

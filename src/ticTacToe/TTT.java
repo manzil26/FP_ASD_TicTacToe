@@ -8,6 +8,8 @@ import java.util.Scanner;
  * It acts as the overall controller of the game.
  */
 public class TTT {
+    public static int col;
+    public static int row;
     // Define properties
     /** The game board */
     private Board board;
@@ -37,11 +39,20 @@ public class TTT {
                 // Print message if game over
                 if (currentState == State.CROSS_WON) {
                     System.out.println("'X' won!");
+                    SoundManager crossWinSound = new SoundManager("ticTacToe/cross_win_sound.wav");
+                    crossWinSound.play();
                 } else if (currentState == State.NOUGHT_WON) {
                     System.out.println("'O' won!");
+                    SoundManager noughtWinSound = new SoundManager("ticTacToe/nought_win_sound.wav");
+                    noughtWinSound.play();
                 } else if (currentState == State.DRAW) {
-                    System.out.println("It's Draw!");
+                    System.out.println("It's a Draw!");
+                    SoundManager drawSound = new SoundManager("ticTacToe/draw_sound.wav");
+                    drawSound.play();
                 }
+
+
+
                 // Switch currentPlayer
                 currentPlayer = (currentPlayer == Seed.CROSS) ? Seed.NOUGHT : Seed.CROSS;
             } while (currentState == State.PLAYING);  // repeat until game over
@@ -81,6 +92,11 @@ public class TTT {
                     && board.cells[row][col].content == Seed.NO_SEED) {
                 // Update cells[][] and return the new game state after the move
                 currentState = board.stepGame(currentPlayer, row, col);
+
+                // Menambahkan suara langkah pemain
+                SoundManager.playSound("ticTacToe/move_sound.wav"); // Suara langkah
+
+
                 validInput = true; // input okay, exit loop
             } else {
                 System.out.println("This move at (" + (row + 1) + "," + (col + 1)

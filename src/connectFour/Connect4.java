@@ -10,11 +10,16 @@ public class Connect4 {
     public static final int HUMAN_PLAYER = 2;  // Representasi pemain manusia
     public static final int EMPTY = 0;
     public static final int MAX_DEPTH = 5;  // Kedalaman pencarian AI
+    private static String humanName;
 
     private int[][] board;
+    private Player humanPlayer;
+    private Player aiPlayer;
 
-    public Connect4() {
+    public Connect4(String humanName, String aiName) {
         board = new int[ROWS][COLS];
+        humanPlayer = new Player(humanName);
+        aiPlayer = new Player(aiName);
     }
 
     public void playGame() {
@@ -22,10 +27,12 @@ public class Connect4 {
         while (true) {
             printBoard();
             if (isWinningMove(board, HUMAN_PLAYER)) {
-                System.out.println("Human wins!");
+                System.out.println(humanPlayer.getName() + " wins!");
+                humanPlayer.addScore(1); // Tambah skor jika menang
                 break;
             } else if (isWinningMove(board, AI_PLAYER)) {
-                System.out.println("AI wins!");
+                System.out.println(aiPlayer.getName() + " wins!");
+                aiPlayer.addScore(1); // Tambah skor jika menang
                 break;
             } else if (isDraw(board)) {
                 System.out.println("It's a draw!");
@@ -35,17 +42,21 @@ public class Connect4 {
             if (isAITurn) {
                 int bestMove = getBestMove();
                 makeMove(board, bestMove, AI_PLAYER);
-                System.out.println("AI chooses column: " + bestMove);
+                System.out.println(aiPlayer.getName() + " chooses column: " + bestMove);
             } else {
                 int col;
                 do {
-                    System.out.print("Enter your move (0-6): ");
+                    System.out.print(humanPlayer.getName() + ", enter your move (0-6): ");
                     col = new java.util.Scanner(System.in).nextInt();
                 } while (!isValidMove(col));
                 makeMove(board, col, HUMAN_PLAYER);
             }
             isAITurn = !isAITurn;
         }
+        System.out.println("Scoreboard:");
+        System.out.println(humanPlayer.getName() + ": " + humanPlayer.getScore());
+        System.out.println(aiPlayer.getName() + ": " + aiPlayer.getScore());
+
     }
 
     public int getBestMove() {
@@ -203,7 +214,7 @@ public class Connect4 {
     }
 
     public static void main(String[] args) {
-        Connect4 game = new Connect4();
+        Connect4 game = new Connect4(humanName, new AIPlayerMinimax(Board));
         game.playGame();
     }
 }

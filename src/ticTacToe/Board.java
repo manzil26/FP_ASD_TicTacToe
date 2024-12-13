@@ -6,8 +6,8 @@ package ticTacToe;
 
 public class Board {  // save as "Board.java"
     // Define named constants for the grid
-    public static final int ROWS = 3;
-    public static final int COLS = 3;
+    public static final int ROWS = 6;
+    public static final int COLS = 6;
 
     // Define properties (package-visible)
     /** A board composes of [ROWS]x[COLS] Cell instances */
