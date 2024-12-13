@@ -9,7 +9,7 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Connect4");  // Judul Game
-            GameMain game = new GameMain();
+            TikTakTu.GameMain game = new GameMain();
             game.initGame(isAIMode);  // Inisialisasi game dengan AI mode
             frame.setContentPane(game);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

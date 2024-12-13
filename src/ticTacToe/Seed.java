@@ -1,6 +1,9 @@
 package ticTacToe;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 35bc9b7215be21d19496694c07487f9ff9266747
 /**
  * This enum is used by:
  * 1. Player: takes value of CROSS or NOUGHT

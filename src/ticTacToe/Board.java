@@ -1,6 +1,9 @@
 package ticTacToe;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 35bc9b7215be21d19496694c07487f9ff9266747
 /**
  * The Board class models the TTT game-board of 3x3 cells.
  */

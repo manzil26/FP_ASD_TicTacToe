@@ -1,9 +1,13 @@
 package ticTacToe;
+<<<<<<< HEAD
 
 
 import javax.swing.*;
+=======
+>>>>>>> 35bc9b7215be21d19496694c07487f9ff9266747
 import java.util.Scanner;
 /**
+
  * The main class for the Tic-Tac-Toe (Console-OO, non-graphics version)
  * It acts as the overall controller of the game.
  */
