@@ -1,4 +1,4 @@
-package TikTakTu;
+package connectFour;
 
 import java.awt.Image;
 import java.net.URL;
@@ -17,8 +17,8 @@ import javax.swing.ImageIcon;
  *  however, not supported.
  */
 public enum Seed {   // to save as "Seed.java"
-    CROSS("X", "TikTakTu/pixelart-8914_256.gif"),   // displayName, imageFilename
-    NOUGHT("O", "TikTakTu/sepeda.gif"),
+    CROSS("X", "connectFour/pixelart-8914_256.gif"),   // displayName, imageFilename
+    NOUGHT("O", "connectFour/sepeda.gif"),
     NO_SEED(" ", null);
 
     // Private variables

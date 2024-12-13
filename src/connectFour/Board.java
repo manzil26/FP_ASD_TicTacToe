@@ -1,4 +1,4 @@
-package TikTakTu;
+package connectFour;
 import java.awt.*;
 /**
  * The Board class models the ROWS-by-COLS game board.

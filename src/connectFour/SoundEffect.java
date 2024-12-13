@@ -1,4 +1,4 @@
-package TikTakTu;
+package connectFour;
 
 import javax.sound.sampled.*;
 import java.io.InputStream;

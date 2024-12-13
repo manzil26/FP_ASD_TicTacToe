@@ -1,3 +1,7 @@
+package ticTacToe;
+
+
+import javax.swing.*;
 import java.util.Scanner;
 /**
  * The main class for the Tic-Tac-Toe (Console-OO, non-graphics version)
@@ -85,5 +89,12 @@ public class TTT {
         } while (!validInput);   // repeat until input is valid
     }
 
-
+    public void TTTGraphics() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new TTTGraphics();
+            }
+        });
+    }
 }

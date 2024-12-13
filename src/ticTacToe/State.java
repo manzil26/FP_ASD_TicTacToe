@@ -1,3 +1,6 @@
+package ticTacToe;
+
+
 /**
  *  The enum State defines the various game states of the TTT game
  */

@@ -1,4 +1,4 @@
-package TikTakTu;
+package connectFour;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -39,10 +39,10 @@ public class GameMain extends JPanel {
     public GameMain() {
 
         // Initialize sound effects
-        moveSound = new SoundEffect("TikTakTu/beep.wav");
-        winSound = new SoundEffect("TikTakTu/mati.wav");
-        drawSound = new SoundEffect("TikTakTu/meledak.wav");
-        moveAISound = new SoundEffect("TikTakTu/cute.wav"); // File suara langkah AI
+        moveSound = new SoundEffect("connectFour/beep.wav");
+        winSound = new SoundEffect("connectFour/mati.wav");
+        drawSound = new SoundEffect("connectFour/meledak.wav");
+        moveAISound = new SoundEffect("connectFour/cute.wav"); // File suara langkah AI
 
 
 
