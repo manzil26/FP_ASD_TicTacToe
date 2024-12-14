@@ -2,8 +2,8 @@ package ticTacToe;
 
 import javax.swing.*;
 import java.util.Scanner;
-/**
 
+/**
  * The main class for the Tic-Tac-Toe (Console-OO, non-graphics version)
  * It acts as the overall controller of the game.
  */
@@ -19,6 +19,7 @@ public class TTT {
     private Seed  currentPlayer;
 
     private static Scanner in = new Scanner(System.in);
+    private static SoundManager soundManager = new SoundManager();
 
     /** Constructor to setup the game */
     public void play() {
@@ -39,19 +40,14 @@ public class TTT {
                 // Print message if game over
                 if (currentState == State.CROSS_WON) {
                     System.out.println("'X' won!");
-                    SoundManager crossWinSound = new SoundManager("ticTacToe/cross_win_sound.wav");
-                    crossWinSound.play();
+                    soundManager.playSound("ticTacToe/cross_win_sound.wav");
                 } else if (currentState == State.NOUGHT_WON) {
                     System.out.println("'O' won!");
-                    SoundManager noughtWinSound = new SoundManager("ticTacToe/nought_win_sound.wav");
-                    noughtWinSound.play();
+                    soundManager.playSound("ticTacToe/nought_win_sound.wav");
                 } else if (currentState == State.DRAW) {
                     System.out.println("It's a Draw!");
-                    SoundManager drawSound = new SoundManager("ticTacToe/draw_sound.wav");
-                    drawSound.play();
+                    soundManager.playSound("ticTacToe/draw_sound.wav");
                 }
-
-
 
                 // Switch currentPlayer
                 currentPlayer = (currentPlayer == Seed.CROSS) ? Seed.NOUGHT : Seed.CROSS;
@@ -93,9 +89,8 @@ public class TTT {
                 // Update cells[][] and return the new game state after the move
                 currentState = board.stepGame(currentPlayer, row, col);
 
-                // Menambahkan suara langkah pemain
-                SoundManager.playSound("ticTacToe/move_sound.wav"); // Suara langkah
-
+                // Play sound when a move is made
+                soundManager.playSound("ticTacToe/move_sound.wav");
 
                 validInput = true; // input okay, exit loop
             } else {
@@ -112,5 +107,10 @@ public class TTT {
                 new TTTGraphics1();
             }
         });
+    }
+
+    public static void main(String[] args) {
+        TTT game = new TTT();
+        game.play();
     }
 }

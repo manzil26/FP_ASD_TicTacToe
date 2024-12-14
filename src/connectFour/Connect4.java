@@ -6,39 +6,46 @@ import java.util.List;
 public class Connect4 {
     public static final int ROWS = 6;
     public static final int COLS = 7;
-    public static final int AI_PLAYER = 1;  // Representasi AI
-    public static final int HUMAN_PLAYER = 2;  // Representasi pemain manusia
+    public static final int AI_PLAYER = 1;  // Representation of AI
+    public static final int HUMAN_PLAYER = 2;  // Representation of Human Player
     public static final int EMPTY = 0;
-    public static final int MAX_DEPTH = 5;  // Kedalaman pencarian AI
-    private static String humanName;
+    public static final int MAX_DEPTH = 5;  // AI search depth
 
     private int[][] board;
     private Player humanPlayer;
     private Player aiPlayer;
+    private Board gameBoard;
 
-    public Connect4(String humanName, String aiName) {
-        board = new int[ROWS][COLS];
-        humanPlayer = new Player(humanName);
-        aiPlayer = new Player(aiName);
+    // Constructor
+    public Connect4(String humanName, String aiName, Board board) {
+        this.board = new int[ROWS][COLS]; // Initialize the game board
+        this.gameBoard = board;          // Shared Board instance
+        this.humanPlayer = new Player(humanName);
+        this.aiPlayer = new Player(aiName);
     }
 
+    // Method to play the game
     public void playGame() {
         boolean isAITurn = false;
+
         while (true) {
             printBoard();
+
+            // Check for game over conditions
             if (isWinningMove(board, HUMAN_PLAYER)) {
                 System.out.println(humanPlayer.getName() + " wins!");
-                humanPlayer.addScore(1); // Tambah skor jika menang
+                humanPlayer.addScore(1);
                 break;
             } else if (isWinningMove(board, AI_PLAYER)) {
                 System.out.println(aiPlayer.getName() + " wins!");
-                aiPlayer.addScore(1); // Tambah skor jika menang
+                aiPlayer.addScore(1);
                 break;
             } else if (isDraw(board)) {
                 System.out.println("It's a draw!");
                 break;
             }
 
+            // Player moves
             if (isAITurn) {
                 int bestMove = getBestMove();
                 makeMove(board, bestMove, AI_PLAYER);
@@ -51,14 +58,17 @@ public class Connect4 {
                 } while (!isValidMove(col));
                 makeMove(board, col, HUMAN_PLAYER);
             }
-            isAITurn = !isAITurn;
+
+            isAITurn = !isAITurn; // Toggle turn
         }
+
+        // Display the scoreboard
         System.out.println("Scoreboard:");
         System.out.println(humanPlayer.getName() + ": " + humanPlayer.getScore());
         System.out.println(aiPlayer.getName() + ": " + aiPlayer.getScore());
-
     }
 
+    // AI Logic: Get the best move for the AI
     public int getBestMove() {
         int bestScore = Integer.MIN_VALUE;
         int bestMove = -1;
@@ -74,6 +84,7 @@ public class Connect4 {
         return bestMove;
     }
 
+    // Minimax algorithm with alpha-beta pruning
     private int minimax(int[][] board, int depth, boolean isMaximizingPlayer, int alpha, int beta) {
         if (isWinningMove(board, AI_PLAYER)) return 1000;
         if (isWinningMove(board, HUMAN_PLAYER)) return -1000;
@@ -102,14 +113,16 @@ public class Connect4 {
         }
     }
 
+    // Evaluate the board
     private int evaluateBoard(int[][] board) {
         int score = 0;
-        // Tambahkan heuristik evaluasi posisi di sini (contoh: pola 2, 3, atau posisi tengah).
+        // Add heuristics here (e.g., patterns, central positions).
         return score;
     }
 
+    // Check for a winning move
     private boolean isWinningMove(int[][] board, int player) {
-        // Periksa kemenangan horizontal, vertikal, dan diagonal
+        // Check horizontal, vertical, and diagonal wins
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS - 3; col++) {
                 if (board[row][col] == player &&
@@ -157,6 +170,7 @@ public class Connect4 {
         return false;
     }
 
+    // Check for a draw
     private boolean isDraw(int[][] board) {
         for (int col = 0; col < COLS; col++) {
             if (board[0][col] == EMPTY) {
@@ -166,6 +180,7 @@ public class Connect4 {
         return true;
     }
 
+    // Get valid moves
     private List<Integer> validMoves(int[][] board) {
         List<Integer> moves = new ArrayList<>();
         for (int col = 0; col < COLS; col++) {
@@ -176,6 +191,7 @@ public class Connect4 {
         return moves;
     }
 
+    // Simulate a move
     private int[][] simulateMove(int[][] board, int col, int player) {
         int[][] newBoard = new int[ROWS][COLS];
         for (int row = 0; row < ROWS; row++) {
@@ -190,6 +206,7 @@ public class Connect4 {
         return newBoard;
     }
 
+    // Make a move on the board
     private void makeMove(int[][] board, int col, int player) {
         for (int row = ROWS - 1; row >= 0; row--) {
             if (board[row][col] == EMPTY) {
@@ -199,10 +216,12 @@ public class Connect4 {
         }
     }
 
+    // Check if the move is valid
     private boolean isValidMove(int col) {
         return col >= 0 && col < COLS && board[0][col] == EMPTY;
     }
 
+    // Print the board
     private void printBoard() {
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
@@ -212,10 +231,4 @@ public class Connect4 {
         }
         System.out.println("0 1 2 3 4 5 6");
     }
-
-    public static void main(String[] args) {
-        Connect4 game = new Connect4(humanName, new AIPlayerMinimax(Board));
-        game.playGame();
-    }
 }
-

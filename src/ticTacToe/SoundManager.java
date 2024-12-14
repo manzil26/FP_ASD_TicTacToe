@@ -2,37 +2,26 @@ package ticTacToe;
 
 import javax.sound.sampled.*;
 import java.io.InputStream;
+import java.io.IOException;
 
 public class SoundManager {
-    private Clip clip;
 
-    public SoundManager(String soundFileName) {
+    public static void playSound(String soundFile) {
         try {
-            InputStream audioSrc = getClass().getClassLoader().getResourceAsStream(soundFileName);
-            if (audioSrc == null) {
-                throw new IllegalArgumentException("Sound file not found: " + soundFileName);
+            // Try loading the resource from the current package
+            InputStream sound = SoundManager.class.getResourceAsStream("/" + soundFile);
+            if (sound == null) {
+                System.out.println("Sound file not found: " + soundFile);
+                return;
             }
 
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            audioInputStream.close();
-        } catch (Exception e) {
-            System.err.println("Error loading sound file: " + soundFileName);
+            // Create an AudioInputStream from the InputStream
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(sound);
+            Clip clip = AudioSystem.getClip();  // Get a clip to play the sound
+            clip.open(audioIn);  // Open the audio input stream
+            clip.start();  // Start playing the sound
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
-    }
-
-    public void play() {
-        if (clip != null) {
-            clip.stop();
-            clip.setFramePosition(0);
-            clip.start();
-        }
-    }
-
-    public static void playSound(String soundFileName) {
-        SoundManager soundManager = new SoundManager(soundFileName);
-        soundManager.play();
     }
 }
