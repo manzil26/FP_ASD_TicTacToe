@@ -33,7 +33,10 @@ public class GameMain extends JPanel {
     private SoundEffect winSound;
     private SoundEffect drawSound;
     private SoundEffect moveAISound;
-
+    public static Player player1 = new Player("Player 1");
+    public static Player player2 = new Player("Player 2");
+    private JLabel player1ScoreLabel;
+    private JLabel player2ScoreLabel;
 
     /** Constructor to setup the UI and game components */
     public GameMain() {
@@ -43,6 +46,21 @@ public class GameMain extends JPanel {
         winSound = new SoundEffect("connectFour/mati.wav");
         drawSound = new SoundEffect("connectFour/meledak.wav");
         moveAISound = new SoundEffect("connectFour/cute.wav"); // File suara langkah AI
+
+        player1ScoreLabel = new JLabel("Player X (Score: 0)");
+        player2ScoreLabel = new JLabel("Player O (Score: 0)");
+
+        player1ScoreLabel.setFont(FONT_STATUS);
+        player2ScoreLabel.setFont(FONT_STATUS);
+
+        player1ScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        player2ScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        JPanel scorePanel = new JPanel(new GridLayout(1, 2));
+        scorePanel.add(player1ScoreLabel);
+        scorePanel.add(player2ScoreLabel);
+
+        super.add(scorePanel, BorderLayout.PAGE_START);
 
 
 
@@ -107,6 +125,8 @@ public class GameMain extends JPanel {
 
         });
 
+
+
         // Setup the status bar (JLabel) to display status message
         statusBar = new JLabel();
         statusBar.setFont(FONT_STATUS);
@@ -115,6 +135,9 @@ public class GameMain extends JPanel {
         statusBar.setPreferredSize(new Dimension(300, 30));
         statusBar.setHorizontalAlignment(JLabel.LEFT);
         statusBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 12));
+        statusBar.setText(String.format("X: %d | O: %d - %s's Turn",
+                player1.getScore(), player2.getScore(),
+                (currentPlayer == Seed.CROSS ? "X" : "O")));
 
         super.setLayout(new BorderLayout());
         super.add(statusBar, BorderLayout.PAGE_END); // same as SOUTH
@@ -131,10 +154,16 @@ public class GameMain extends JPanel {
     public void initGame(boolean isAIMode) {
         this.isAIMode = isAIMode;
         board = new Board();
+
+        // Inisialisasi pemain
+        player1 = new Player("Player X");
+        player2 = new Player("Player O");
+
         if (isAIMode) {
             aiPlayer = new AIPlayerMinimax(board);
         }
     }
+
 
 
     /** Reset the game-board contents and the current-state, ready for new game */
@@ -151,25 +180,31 @@ public class GameMain extends JPanel {
 
     /** Custom painting codes on this JPanel */
     @Override
-    public void paintComponent(Graphics g) {  // Callback via repaint()
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(COLOR_BG); // set its background color
+        player1ScoreLabel.setText(String.format("Player X (Score: %d)", GameMain.player1.getScore()));
+        player2ScoreLabel.setText(String.format("Player O (Score: %d)", GameMain.player2.getScore()));
 
-        board.paint(g);  // ask the game board to paint itself
+        board.paint(g); // Ask the game board to paint itself
 
-        // Print status-bar message
+        // Tampilkan status giliran dan skor pemain
         if (currentState == State.PLAYING) {
             statusBar.setForeground(Color.BLACK);
-            statusBar.setText((currentPlayer == Seed.CROSS) ? "X's Turn" : "O's Turn");
+            statusBar.setText(String.format("X's Turn (Score: %d) vs O's Turn (Score: %d)",
+                    GameMain.player1.getScore(), GameMain.player2.getScore()));
         } else if (currentState == State.DRAW) {
             statusBar.setForeground(Color.RED);
-            statusBar.setText("It's a Draw! Click to play again.");
+            statusBar.setText(String.format("It's a Draw! Final Score: X: %d, O: %d. Click to play again.",
+                    GameMain.player1.getScore(), GameMain.player2.getScore()));
         } else if (currentState == State.CROSS_WON) {
             statusBar.setForeground(Color.RED);
-            statusBar.setText("'X' Won! Click to play again.");
+            statusBar.setText(String.format("'X' Won! Final Score: X: %d, O: %d. Click to play again.",
+                    GameMain.player1.getScore(), GameMain.player2.getScore()));
         } else if (currentState == State.NOUGHT_WON) {
             statusBar.setForeground(Color.RED);
-            statusBar.setText("'O' Won! Click to play again.");
+            statusBar.setText(String.format("'O' Won! Final Score: X: %d, O: %d. Click to play again.",
+                    GameMain.player1.getScore(), GameMain.player2.getScore()));
         }
     }
 

@@ -35,6 +35,8 @@ public class Board {
             }
         }
     }
+
+
     public int getFirstAvailableRow(int col) {
         for (int row = ROWS - 1; row >= 0; row--) {
             if (cells[row][col].content == Seed.NO_SEED) {
@@ -53,72 +55,86 @@ public class Board {
         }
     }
 
+
+
     /**
      *  The given player makes a move on (selectedRow, selectedCol).
      *  Update cells[selectedRow][selectedCol]. Compute and return the
      *  new game state (PLAYING, DRAW, CROSS_WON, NOUGHT_WON).
      */
-    public State stepGame(Seed player, int selectedRow, int selectedCol) {
-        cells[selectedRow][selectedCol].content = player;  // Place the player's seed
+    public State stepGame(Seed seed, int row, int col) {
+        cells[row][col].content = seed; // Isi sel dengan simbol pemain
 
-        // Check if this move caused the player to win
-        if (hasWon(player, selectedRow, selectedCol)) {
-            return (player == Seed.CROSS) ? State.CROSS_WON : State.NOUGHT_WON;
+        // Tambahkan poin jika ada empat simbol berjajar
+        int points = checkFourInARow(seed, row, col);
+        if (points > 0) {
+            if (seed == Seed.CROSS) {
+                GameMain.player1.addScore(points); // Tambah skor ke pemain 1
+                if (GameMain.player1.hasWon()) return State.CROSS_WON;
+            } else if (seed == Seed.NOUGHT) {
+                GameMain.player2.addScore(points); // Tambah skor ke pemain 2
+                if (GameMain.player2.hasWon()) return State.NOUGHT_WON;
+            }
         }
 
-        // Check for draw (if no empty cells)
-        boolean draw = true;
+        // Periksa jika papan penuh (draw)
+        if (isDraw()) {
+            return State.DRAW;
+        }
+
+        return State.PLAYING; // Jika tidak ada yang menang, lanjutkan permainan
+    }
+
+    public int checkFourInARow(Seed seed, int row, int col) {
+        int points = 0;
+
+        // Periksa semua arah (horizontal, vertikal, diagonal, anti-diagonal)
+        if (countConsecutive(seed, row, col, 0, 1) >= 4) points++; // Horizontal
+        if (countConsecutive(seed, row, col, 1, 0) >= 4) points++; // Vertikal
+        if (countConsecutive(seed, row, col, 1, 1) >= 4) points++; // Diagonal
+        if (countConsecutive(seed, row, col, 1, -1) >= 4) points++; // Anti-diagonal
+
+        return points;
+    }
+
+    private int countConsecutive(Seed seed, int row, int col, int deltaRow, int deltaCol) {
+        int count = 0;
+        int r = row, c = col;
+
+        // Hitung ke depan
+        while (r >= 0 && r < ROWS && c >= 0 && c < COLS && cells[r][c].content == seed) {
+            count++;
+            r += deltaRow;
+            c += deltaCol;
+        }
+
+        // Hitung ke belakang
+        r = row - deltaRow;
+        c = col - deltaCol;
+        while (r >= 0 && r < ROWS && c >= 0 && c < COLS && cells[r][c].content == seed) {
+            count++;
+            r -= deltaRow;
+            c -= deltaCol;
+        }
+
+        return count;
+    }
+    public boolean isDraw() {
+        // Periksa apakah semua sel sudah terisi
         for (int row = 0; row < ROWS; ++row) {
             for (int col = 0; col < COLS; ++col) {
                 if (cells[row][col].content == Seed.NO_SEED) {
-                    draw = false;
-                    break;
+                    return false; // Masih ada sel kosong, belum seri
                 }
             }
         }
-        if (draw) {
-            return State.DRAW;  // No more moves, it's a draw
+
+        // Periksa apakah tidak ada pemain yang menang
+        if (GameMain.player1.getScore() < 3 && GameMain.player2.getScore() < 3) {
+            return true; // Semua sel terisi, tapi tidak ada yang menang
         }
 
-        // Otherwise, game is still playing
-        return State.PLAYING;
-    }
-
-
-    private boolean hasWon(Seed player, int row, int col) {
-        return (checkLine(player, row, col, 0, 1) ||   // Horizontal
-                checkLine(player, row, col, 1, 0) ||   // Vertical
-                checkLine(player, row, col, 1, 1) ||   // Diagonal (top-left to bottom-right)
-                checkLine(player, row, col, 1, -1));   // Anti-diagonal (bottom-left to top-right)
-    }
-
-
-    private boolean checkLine(Seed player, int row, int col, int deltaRow, int deltaCol) {
-        int count = 1;  // Count the current seed itself
-
-        // Check in the forward direction
-        count += countConsecutive(player, row, col, deltaRow, deltaCol);
-
-        // Check in the backward direction
-        count += countConsecutive(player, row, col, -deltaRow, -deltaCol);
-
-        // Check if there are 4 or more in total
-        return count >= 4;
-    }
-
-    private int countConsecutive(Seed player, int row, int col, int deltaRow, int deltaCol) {
-        int count = 0;
-        int currentRow = row + deltaRow;
-        int currentCol = col + deltaCol;
-
-        while (currentRow >= 0 && currentRow < Board.ROWS &&
-                currentCol >= 0 && currentCol < Board.COLS &&
-                cells[currentRow][currentCol].content == player) {
-            count++;
-            currentRow += deltaRow;
-            currentCol += deltaCol;
-        }
-        return count;
+        return false; // Seri tidak terjadi jika ada pemenang
     }
 
 

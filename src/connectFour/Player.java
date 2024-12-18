@@ -20,4 +20,7 @@ public class Player {
     public void addScore(int points) {
         this.score += points;
     }
+    public boolean hasWon() {
+        return score >= 3;
+    }
 }
