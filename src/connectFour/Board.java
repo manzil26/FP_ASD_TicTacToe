@@ -35,28 +35,6 @@ public class Board {
             }
         }
     }
-
-
-    public int getFirstAvailableRow(int col) {
-        for (int row = ROWS - 1; row >= 0; row--) {
-            if (cells[row][col].content == Seed.NO_SEED) {
-                return row;
-            }
-        }
-        return -1;  // Kolom penuh
-    }
-
-    /** Reset the game board, ready for new game */
-    public void newGame() {
-        for (int row = 0; row < ROWS; ++row) {
-            for (int col = 0; col < COLS; ++col) {
-                cells[row][col].newGame(); // clear the cell content
-            }
-        }
-    }
-
-
-
     /**
      *  The given player makes a move on (selectedRow, selectedCol).
      *  Update cells[selectedRow][selectedCol]. Compute and return the

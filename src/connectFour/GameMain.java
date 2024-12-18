@@ -40,6 +40,9 @@ public class GameMain extends JPanel {
 
     /** Constructor to setup the UI and game components */
     public GameMain() {
+        aiPlayer = new AIPlayerMinimax(board);
+        aiPlayer.setSeed(Seed.NOUGHT); // Pastikan seed AI diatur di sini
+
 
         // Initialize sound effects
         moveSound = new SoundEffect("connectFour/beep.wav");

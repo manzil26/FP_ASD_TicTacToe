@@ -11,6 +11,7 @@ public class Connect4 {
     public static final int EMPTY = 0;
     public static final int MAX_DEPTH = 5;  // AI search depth
 
+
     private int[][] board;
     private Player humanPlayer;
     private Player aiPlayer;
