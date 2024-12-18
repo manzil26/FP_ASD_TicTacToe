@@ -1,15 +1,9 @@
-package ticTacToe;
-
-import javax.swing.*;
 import java.util.Scanner;
-
 /**
  * The main class for the Tic-Tac-Toe (Console-OO, non-graphics version)
  * It acts as the overall controller of the game.
  */
 public class TTT {
-    public static int col;
-    public static int row;
     // Define properties
     /** The game board */
     private Board board;
@@ -19,7 +13,6 @@ public class TTT {
     private Seed  currentPlayer;
 
     private static Scanner in = new Scanner(System.in);
-    private static SoundManager soundManager = new SoundManager();
 
     /** Constructor to setup the game */
     public void play() {
@@ -40,15 +33,11 @@ public class TTT {
                 // Print message if game over
                 if (currentState == State.CROSS_WON) {
                     System.out.println("'X' won!");
-                    soundManager.playSound("ticTacToe/cross_win_sound.wav");
                 } else if (currentState == State.NOUGHT_WON) {
                     System.out.println("'O' won!");
-                    soundManager.playSound("ticTacToe/nought_win_sound.wav");
                 } else if (currentState == State.DRAW) {
-                    System.out.println("It's a Draw!");
-                    soundManager.playSound("ticTacToe/draw_sound.wav");
+                    System.out.println("It's Draw!");
                 }
-
                 // Switch currentPlayer
                 currentPlayer = (currentPlayer == Seed.CROSS) ? Seed.NOUGHT : Seed.CROSS;
             } while (currentState == State.PLAYING);  // repeat until game over
@@ -88,10 +77,6 @@ public class TTT {
                     && board.cells[row][col].content == Seed.NO_SEED) {
                 // Update cells[][] and return the new game state after the move
                 currentState = board.stepGame(currentPlayer, row, col);
-
-                // Play sound when a move is made
-                soundManager.playSound("ticTacToe/move_sound.wav");
-
                 validInput = true; // input okay, exit loop
             } else {
                 System.out.println("This move at (" + (row + 1) + "," + (col + 1)
@@ -100,17 +85,5 @@ public class TTT {
         } while (!validInput);   // repeat until input is valid
     }
 
-    public void TTTGraphics() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new TTTGraphics1();
-            }
-        });
-    }
 
-    public static void main(String[] args) {
-        TTT game = new TTT();
-        game.play();
-    }
 }

@@ -1,10 +1,10 @@
 package connectFour;
 
 
+
 public abstract class AIPlayer {
     protected int ROWS = Board.ROWS;
     protected int COLS = Board.COLS;
-
     protected Cell[][] cells;
     protected Seed mySeed;
     protected Seed oppSeed;
@@ -18,5 +18,6 @@ public abstract class AIPlayer {
         oppSeed = (mySeed == Seed.CROSS) ? Seed.NOUGHT : Seed.CROSS;
     }
 
-    abstract int[] move();
+    abstract int[] move();  // To be implemented by subclasses
 }
+

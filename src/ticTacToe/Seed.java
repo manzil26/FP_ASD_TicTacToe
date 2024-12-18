@@ -1,5 +1,6 @@
 package ticTacToe;
 
+package ticTacToe;
 /**
  * This enum is used by:
  * 1. Player: takes value of CROSS or NOUGHT

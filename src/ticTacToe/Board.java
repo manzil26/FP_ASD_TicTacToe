@@ -1,7 +1,5 @@
 package ticTacToe;
-/**
- * The Board class models the TTT game-board of 3x3 cells.
- */
+package ticTacToe;
 
 
 public class Board {  // save as "Board.java"
