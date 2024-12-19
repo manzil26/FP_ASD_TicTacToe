@@ -1,8 +1,6 @@
 package ticTacToe;
 
 
-package ticTacToe;
-
 public class Cell {  // save as "Cell.java"
     // Define properties (package-visible)
     /** Content of this cell (CROSS, NOUGHT, NO_SEED) */

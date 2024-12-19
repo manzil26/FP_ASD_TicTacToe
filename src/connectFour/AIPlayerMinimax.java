@@ -7,8 +7,10 @@ public class AIPlayerMinimax extends AIPlayer {
     private Seed mySeed;          // The AI's seed
     private Seed oppSeed;         // The opponent's seed
     private int maxDepth = 6;     // Depth limit for Minimax
+
     public AIPlayerMinimax(Board board) {
         super(board);
+        this.board = Objects.requireNonNull(board, "Board cannot be null!");
     }
 
     public void setSeed(Seed seed) {
@@ -24,40 +26,58 @@ public class AIPlayerMinimax extends AIPlayer {
         for (int col = 0; col < Board.COLS; col++) {
             for (int row = Board.ROWS - 1; row >= 0; row--) {
                 if (board.cells[row][col].content == Seed.NO_SEED) {
-                    // Try move
+                    // Simulasi langkah
                     board.cells[row][col].content = mySeed;
+
+                    // Evaluasi langkah
                     int score = minimax(0, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                    // Undo move
+
+                    // Batalkan simulasi
                     board.cells[row][col].content = Seed.NO_SEED;
 
                     if (score > bestScore) {
                         bestScore = score;
                         bestMove = new int[]{row, col};
                     }
-                    break; // Only consider the lowest empty cell in a column
+                    break; // Hanya evaluasi sel terendah dalam kolom
                 }
             }
         }
         return bestMove;
     }
 
-    private int minimax(int depth, boolean isMaximizing, int alpha, int beta) {
-        State currentState = board.stepGame(mySeed);
-        if (currentState == State.CROSS_WON || currentState == State.NOUGHT_WON || currentState == State.DRAW) {
-            return evaluateState(currentState, depth);
+    private State checkGameState() {
+        if (board.checkFourInARow(mySeed, 0, 0) > 0) return (mySeed == Seed.CROSS) ? State.CROSS_WON : State.NOUGHT_WON;
+        if (board.checkFourInARow(oppSeed, 0, 0) > 0) return (oppSeed == Seed.CROSS) ? State.CROSS_WON : State.NOUGHT_WON;
+        if (board.isDraw()) return State.DRAW;
+        return State.PLAYING;
+    }
+
+    public int minimax(int depth, boolean isMaximizing, int alpha, int beta) {
+        // Evaluasi kondisi terminal
+        State state = checkGameState();
+        if (state != State.PLAYING) {
+            return evaluateState(state, depth);
         }
         if (depth >= maxDepth) {
             return evaluateBoard();
         }
 
         int bestScore = isMaximizing ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+
         for (int col = 0; col < Board.COLS; col++) {
             for (int row = Board.ROWS - 1; row >= 0; row--) {
                 if (board.cells[row][col].content == Seed.NO_SEED) {
+                    // Simulasi langkah
                     board.cells[row][col].content = isMaximizing ? mySeed : oppSeed;
+
+                    // Rekursi Minimax
                     int score = minimax(depth + 1, !isMaximizing, alpha, beta);
+
+                    // Batalkan simulasi
                     board.cells[row][col].content = Seed.NO_SEED;
 
+                    // Pembaruan nilai terbaik
                     if (isMaximizing) {
                         bestScore = Math.max(bestScore, score);
                         alpha = Math.max(alpha, bestScore);
@@ -66,8 +86,9 @@ public class AIPlayerMinimax extends AIPlayer {
                         beta = Math.min(beta, bestScore);
                     }
 
-                    if (beta <= alpha) break; // Prune
-                    break; // Only check the lowest empty cell in a column
+                    // Pemangkasan alpha-beta
+                    if (beta <= alpha) break;
+                    break; // Hanya evaluasi sel terendah dalam kolom
                 }
             }
         }

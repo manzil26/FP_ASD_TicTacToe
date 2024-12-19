@@ -1,5 +1,5 @@
 package ticTacToe;
-package ticTacToe;
+
 
 
 public class Board {  // save as "Board.java"
