@@ -1,5 +1,6 @@
 package ticTacToe;
 
+import ticTacToe.State;
 
 
 public class Board {  // save as "Board.java"

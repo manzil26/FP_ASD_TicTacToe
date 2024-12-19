@@ -10,8 +10,8 @@ public class TTTGraphics extends JFrame {
     private static final long serialVersionUID = 1L; // to prevent serializable warning
 
     // Define named constants for the game board
-    public static final int ROWS = 3;  // ROWS x COLS cells
-    public static final int COLS = 3;
+    public static final int ROWS = 6;  // ROWS x COLS cells
+    public static final int COLS = 7;
 
     // Define named constants for the drawing graphics
     public static final int CELL_SIZE = 120; // cell width/height (square)
@@ -24,10 +24,10 @@ public class TTTGraphics extends JFrame {
     public static final int SYMBOL_SIZE = CELL_SIZE - CELL_PADDING * 2; // width/height
     public static final int SYMBOL_STROKE_WIDTH = 8; // pen's stroke width
     public static final Color COLOR_BG = Color.WHITE;  // background
-    public static final Color COLOR_BG_STATUS = new Color(216, 216, 216);
+    public static final Color COLOR_BG_STATUS = new Color(218, 131, 174, 228);
     public static final Color COLOR_GRID   = Color.LIGHT_GRAY;  // grid lines
-    public static final Color COLOR_CROSS  = new Color(211, 45, 65);  // Red #D32D41
-    public static final Color COLOR_NOUGHT = new Color(76, 181, 245); // Blue #4CB5F5
+    public static final Color COLOR_CROSS  = new Color(75, 0, 130, 215);  // Red #D32D41
+    public static final Color COLOR_NOUGHT = new Color(216, 0, 94); // Blue #4CB5F5
     public static final Font FONT_STATUS = new Font("OCR A Extended", Font.PLAIN, 14);
 
     // This enum (inner class) contains the various states of the game

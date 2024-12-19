@@ -12,8 +12,10 @@ package ticTacToe;
  * Assume that next move is available, i.e., not game-over yet.
  */
 public abstract class AIPlayer {
-    protected int ROWS = TTTGraphics1.ROWS;  // number of rows
-    protected int COLS = TTTGraphics1.COLS;  // number of columns
+
+    private Board board;
+    protected int ROWS = Board.ROWS;  // number of rows
+    protected int COLS = Board.COLS;  // number of columns
 
     protected Cell[][] cells; // the board's ROWS-by-COLS array of Cells
     protected Seed mySeed;    // computer's seed
