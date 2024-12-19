@@ -15,7 +15,7 @@ public class GameMain extends JPanel {
 
 
     // Define named constants for the drawing graphics
-    public static final String TITLE = "Tic Tac Toe";
+    public static final String TITLE = "Connect Four";
     public static final Color COLOR_BG = Color.WHITE;
     // Tema Pantai Saat Senja
     public static final Color COLOR_BG_STATUS = new Color(230, 190, 255, 200); // Latar belakang ungu lavender lembut dengan transparansi
