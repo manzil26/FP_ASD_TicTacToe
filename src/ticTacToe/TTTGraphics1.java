@@ -204,7 +204,7 @@ public class TTTGraphics1 extends JFrame {
     }
 
     private String getScoreText() {
-        return "Player X Wins: " + playerXWins + " | Player O Wins: " + playerOWins + " | Draws: " + draws;
+        return "X Wins: " + playerXWins + " | O Wins: " + playerOWins + " | Draws: " + draws;
     }
 
     private void updateScoreBoard() {
